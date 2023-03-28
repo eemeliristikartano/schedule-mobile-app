@@ -1,7 +1,5 @@
 # Schedule-mobile-app
 
-This is a mobile app project created as part of a school course on mobile programming. The app is designed to manage and organize schedules for different activities.
-
 ## Prerequisites
 
 To run the app, you will need the following:
