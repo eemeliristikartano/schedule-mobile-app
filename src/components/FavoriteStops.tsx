@@ -1,16 +1,14 @@
 import { Box, Divider, FlatList, HStack, Text } from "native-base";
 import { useState, useEffect } from 'react'
+import { TouchableWithoutFeedback } from "react-native";
+import { UsersFavoriteStops } from "../types/Types";
+import TimetableModal from "./TimetableModal";
 
-type a = {
-    data: Stops[]
-}
-type Stops = {
-    "gtfsId": string,
-    "name": string
-}
 
 export default function FavoriteStops() {
-    const [favoriteStops, setFavoriteStops] = useState<Stops[]>([]);
+    const [favoriteStops, setFavoriteStops] = useState<UsersFavoriteStops[]>([]);
+    const [showModal, setShowModal] = useState(false);
+    const [gtfsId, setGtfsId] = useState<string>('');
 
     useEffect(() => {
         getStops();
@@ -38,18 +36,29 @@ export default function FavoriteStops() {
 
     }
 
+    const handleShowModal = (gtfsId: string) => {
+        setGtfsId(gtfsId);
+        setShowModal(true);
+    }
+
+    const handleCloseModal = () => setShowModal(false);
+
 
 
     return (
         <Box variant='homeScreenBox'>
             <FlatList
                 data={favoriteStops}
+                keyExtractor={item => item.gtfsId}
                 renderItem={({ item }) =>
-                    <Box p='2' >
-                        <Text variant='homeScreenBoxText'>{item.name}</Text>
-                        <Divider bg='muted.200' marginTop='2' />
-                    </Box>
+                    <TouchableWithoutFeedback onPress={() => handleShowModal(item.gtfsId)} >
+                        <Box p='2' >
+                            <Text variant='homeScreenBoxText'>{item.name}</Text>
+                            <Divider bg='muted.200' marginTop='2' />
+                        </Box>
+                    </TouchableWithoutFeedback>
                 } />
+            <TimetableModal showModal={showModal} gtfsId={gtfsId} closeModal={handleCloseModal} />
         </Box>
     )
 }
