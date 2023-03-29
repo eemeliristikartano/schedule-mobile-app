@@ -1,4 +1,4 @@
-import { Box, FlatList, HStack, Text } from "native-base";
+import { Box, Divider, FlatList, HStack, Text } from "native-base";
 import { useState } from 'react'
 
 export default function FavoriteStops() {
@@ -34,15 +34,13 @@ export default function FavoriteStops() {
 
 
     return (
-        <Box w='2/3' bg='muted.300' borderRadius='xl' p='15px' >
+        <Box variant='homeScreenBox'  >
             <FlatList
                 data={favoriteStops}
                 renderItem={({ item }) =>
-                    <Box
-                        borderBottomWidth='1'
-                        borderColor='muted.800'
-                        pl={['0', '4']} pr={['0', '5']} >
-                        <Text>{item.name}</Text>
+                    <Box p='2' >
+                        <Text variant='homeScreenBoxText'>{item.name}</Text>
+                        <Divider bg='muted.200' marginTop='2' />
                     </Box>} />
         </Box>
     )
