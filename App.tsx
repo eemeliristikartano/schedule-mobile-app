@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import React from "react";
 import { NativeBaseProvider, Box, Text } from "native-base";
+import { API_KEY } from '@env'
 
 export default function App() {
   return (
