@@ -32,6 +32,9 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
                 realtimeState
                 serviceDay
                 headsign
+                trip {
+                    routeShortName
+                }
               }
             }  
           }`;
@@ -68,8 +71,9 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
                     <Modal.Header>{timetable?.name}</Modal.Header>
                     <Modal.Body>
                         {timetable?.stoptimesWithoutPatterns.map((a, index) =>
-                            <Box key={index} p='2'>
-                                <Text variant='homeScreenBoxText'  >{a.headsign} {a.scheduledArrival} {a.realtimeArrival} </Text>
+                            <Box key={index} p='2' flexDirection='row'>
+                                <Text variant='homeScreenBoxText'  > {a.trip.routeShortName} {a.headsign} {a.scheduledArrival} {a.realtimeArrival} </Text>
+                                <Text>jee</Text>
                                 <Divider />
                             </Box>)
 
