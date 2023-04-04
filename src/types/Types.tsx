@@ -8,7 +8,7 @@ export type Timetable = {
     stoptimesWithoutPatterns: StoptimesWithoutPatterns[]
 }
 
-export type StoptimesWithoutPatterns = {
+type StoptimesWithoutPatterns = {
     scheduledArrival: number
     realtimeArrival: number
     arrivalDelay: number
@@ -19,4 +19,10 @@ export type StoptimesWithoutPatterns = {
     realtimeState: string
     serviceDay: number
     headsign: string
+    trip: Trip
 }
+
+type Trip = {
+    routeShortName: string
+}
+
