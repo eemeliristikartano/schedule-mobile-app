@@ -71,9 +71,9 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
                     <Modal.Header>{timetable?.name}</Modal.Header>
                     <Modal.Body>
                         {timetable?.stoptimesWithoutPatterns.map((a, index) =>
-                            <Box key={index} p='2' flexDirection='row'>
-                                <Text variant='homeScreenBoxText'  > {a.trip.routeShortName} {a.headsign} {a.scheduledArrival} {a.realtimeArrival} </Text>
-                                <Text>jee</Text>
+                            <Box key={index} p='2'>
+                                <Text variant='homeScreenBoxText'  > {a.trip.routeShortName}  {Math.floor(a.scheduledArrival / 3_600)}:{((a.scheduledArrival % 3_600) / 60)} </Text>
+
                                 <Divider />
                             </Box>)
 
