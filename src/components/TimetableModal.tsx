@@ -1,6 +1,7 @@
 import { Box, Modal, Text, Divider, Spinner } from "native-base";
 import { useState, useEffect } from "react";
 import { Timetable } from "../types/Types";
+import { API_KEY } from "@env";
 
 type Props = {
     showModal: boolean
@@ -35,7 +36,7 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
             }  
           }`;
         const config = {
-            headers: { "Content-Type": "application/graphql" },
+            headers: { "Content-Type": "application/graphql", "digitransit-subscription-key": API_KEY },
             method: "POST",
             body: body
         }

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { TouchableWithoutFeedback } from "react-native";
 import { UsersFavoriteStops } from "../types/Types";
 import TimetableModal from "./TimetableModal";
+import { API_KEY } from "@env";
 
 
 export default function FavoriteStops() {
@@ -22,7 +23,7 @@ export default function FavoriteStops() {
                         }
                     }`
         const config = {
-            headers: { "Content-Type": "application/graphql" },
+            headers: { "Content-Type": "application/graphql", "digitransit-subscription-key": API_KEY },
             method: "POST",
             body: body
         }

@@ -1,6 +1,7 @@
 import { Box, Text } from "native-base";
 import MapView, { Marker } from "react-native-maps";
 import { useState, useEffect, useLayoutEffect } from 'react'
+import { API_KEY } from "@env";
 
 type Stops = {
     gtfsId: string
@@ -27,10 +28,11 @@ export default function MapScreen() {
             }
           }`;
         const config = {
-            headers: { "Content-Type": "application/graphql" },
+            headers: { "Content-Type": "application/graphql", "digitransit-subscription-key": API_KEY },
             method: "POST",
             body: body
         }
+
 
         const response = await fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', config);
         if (!response.ok) {
@@ -40,22 +42,14 @@ export default function MapScreen() {
         setStops(responseData.data.stops);
     }
 
-    console.log(stops.length)
 
     return (
         <MapView
             style={{ width: '100%', height: '100%' }}
             initialRegion={{ latitude: 60.1709963199927, longitude: 24.935126933661387, latitudeDelta: 0.09, longitudeDelta: 0.04 }}
-
-
         >
-            {stops.map(marker => (
-                <Marker
-                    key={marker.gtfsId}
-                    coordinate={{ latitude: marker.lat, longitude: marker.lon }}
-                    title={marker.name}
-                />
-            ))}
+
+            {stops.map(stop => <Marker key={stop.gtfsId} coordinate={{ latitude: stop.lat, longitude: stop.lon }} />)}
 
 
 
