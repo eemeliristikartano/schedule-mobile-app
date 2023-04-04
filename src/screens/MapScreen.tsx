@@ -49,7 +49,7 @@ export default function MapScreen() {
             initialRegion={{ latitude: 60.1709963199927, longitude: 24.935126933661387, latitudeDelta: 0.09, longitudeDelta: 0.04 }}
         >
 
-            {stops.map(stop => <Marker key={stop.gtfsId} coordinate={{ latitude: stop.lat, longitude: stop.lon }} />)}
+            {stops.slice(0, 1000).map(stop => <Marker key={stop.gtfsId} coordinate={{ latitude: stop.lat, longitude: stop.lon }} />)}
 
 
 
