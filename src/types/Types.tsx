@@ -3,7 +3,7 @@ export type UsersFavoriteStops = {
     name: string
 }
 
-export type Timetable = {
+export type TTimetable = {
     name: string
     platformCode: string
     vehicleMode: string

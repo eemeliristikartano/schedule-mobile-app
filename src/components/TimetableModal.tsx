@@ -1,9 +1,9 @@
-import { Box, Modal, Text, Divider, Spinner, Flex } from "native-base";
+import { Button, Modal, Spinner } from "native-base";
 import { useState, useEffect } from "react";
-import { Timetable } from "../types/Types";
+import { TTimetable } from "../types/Types";
 import { API_KEY } from "@env";
-import TrainTimetable from "./TrainTimeable";
-import OtherVehicleTimetable from "./OtherVehiclesTimetable";
+import Timetable from "./Timetable";
+import { Ionicons } from '@expo/vector-icons';
 
 type Props = {
     showModal: boolean
@@ -12,11 +12,11 @@ type Props = {
 }
 
 export default function TimetableModal({ gtfsId, showModal, closeModal }: Props) {
-    const [timetable, setTimetable] = useState<Timetable>();
+    const [timetable, setTimetable] = useState<TTimetable>();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        if (showModal) getTimetable();
+        if (showModal) getTimetable(); // Gets timetable only if the state is undefined. 
     }, [showModal]);
 
     const getTimetable = async () => {
@@ -72,13 +72,22 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
                 size='full' >
                 <Modal.Content>
                     <Modal.CloseButton />
-                    <Modal.Header>{timetable?.name}</Modal.Header>
+
+                    <Modal.Header flexDirection='row' justifyContent='space-between' >{timetable?.name} </Modal.Header>
                     <Modal.Body>
-                        {timetable?.vehicleMode === "RAIL" ?
-                            <TrainTimetable timetable={timetable} />
-                            :
-                            <OtherVehicleTimetable timetable={timetable} />}
+                        <Timetable timetable={timetable} />
                     </Modal.Body>
+                    <Modal.Footer>
+                        <Button
+                            onPress={() => {
+                                setIsLoading(true);
+                                getTimetable();
+                            }}
+                            variant='ghost'
+                        >
+                            <Ionicons name='refresh' size={20} />
+                        </Button>
+                    </Modal.Footer>
                 </Modal.Content>
             </Modal>
             :
