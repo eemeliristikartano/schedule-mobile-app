@@ -5,6 +5,8 @@ export type UsersFavoriteStops = {
 
 export type Timetable = {
     name: string
+    platformCode: string
+    vehicleMode: string
     stoptimesWithoutPatterns: StoptimesWithoutPatterns[]
 }
 
@@ -24,5 +26,6 @@ type StoptimesWithoutPatterns = {
 
 type Trip = {
     routeShortName: string
+    id: string
 }
 
