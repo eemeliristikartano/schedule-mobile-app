@@ -48,6 +48,7 @@ export default function FavoriteStops() {
 
     return (
         <Box variant='homeScreenBox'>
+            <Text textAlign='center' bold fontSize='2xl' marginBottom='3' >Suosikkipysäkit</Text>
             <FlatList
                 data={favoriteStops}
                 keyExtractor={item => item.gtfsId}

@@ -14,7 +14,7 @@ export default function Navigation() {
 
             if (route.name === 'Etusivu') {
                 iconName = 'home';
-            } else if (route.name === 'Kartta') {
+            } else if (route.name === 'Lähipysäkit') {
                 iconName = 'map';
             }
 
@@ -27,7 +27,7 @@ export default function Navigation() {
         <NavigationContainer>
             <Tab.Navigator screenOptions={screenOptions} >
                 <Tab.Screen name="Etusivu" component={HomeScreen} />
-                <Tab.Screen name='Kartta' component={MapScreen} />
+                <Tab.Screen name='Lähipysäkit' component={MapScreen} />
             </Tab.Navigator>
         </NavigationContainer>
     );

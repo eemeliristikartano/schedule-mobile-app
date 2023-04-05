@@ -31,6 +31,7 @@ export default function FavoriteRoutes() {
 
     return (
         <Box variant='homeScreenBox'>
+            <Text textAlign='center' bold fontSize='2xl' marginBottom='3' >Suosikkireitit</Text>
             <FlatList
                 data={favoriteRoutes}
                 renderItem={({ item }) =>
