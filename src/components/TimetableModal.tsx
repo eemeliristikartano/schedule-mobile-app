@@ -1,7 +1,9 @@
-import { Box, Modal, Text, Divider, Spinner } from "native-base";
+import { Box, Modal, Text, Divider, Spinner, Flex } from "native-base";
 import { useState, useEffect } from "react";
 import { Timetable } from "../types/Types";
 import { API_KEY } from "@env";
+import TrainTimetable from "./TrainTimeable";
+import OtherVehicleTimetable from "./OtherVehiclesTimetable";
 
 type Props = {
     showModal: boolean
@@ -21,6 +23,8 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
         const body = `{
             stop(id: "${gtfsId}") {
               name
+              platformCode
+              vehicleMode
                 stoptimesWithoutPatterns(numberOfDepartures: 10) {
                 scheduledArrival
                 realtimeArrival
@@ -70,15 +74,10 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
                     <Modal.CloseButton />
                     <Modal.Header>{timetable?.name}</Modal.Header>
                     <Modal.Body>
-                        {timetable?.stoptimesWithoutPatterns.map((a, index) =>
-                            <Box key={index} p='2'>
-                                <Text variant='homeScreenBoxText'  > {a.trip.routeShortName}  {Math.floor(a.scheduledArrival / 3_600)}:{((a.scheduledArrival % 3_600) / 60)} </Text>
-
-                                <Divider />
-                            </Box>)
-
-                        }
-
+                        {timetable?.vehicleMode === "RAIL" ?
+                            <TrainTimetable timetable={timetable} />
+                            :
+                            <OtherVehicleTimetable timetable={timetable} />}
                     </Modal.Body>
                 </Modal.Content>
             </Modal>
