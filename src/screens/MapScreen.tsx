@@ -1,30 +1,38 @@
-import { Box, Text } from "native-base";
 import MapView, { Marker } from "react-native-maps";
-import { useState, useEffect, useLayoutEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { API_KEY } from "@env";
-
-type Stops = {
-    gtfsId: string
-    name: string
-    lat: number
-    lon: number
-}
+import { Stops } from "../types/Types";
+import TimetableModal from "../components/TimetableModal";
 
 export default function MapScreen() {
     const [stops, setStops] = useState<Stops[]>([]);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [showModal, setShowModal] = useState(false);
+    const [gtfsId, setGtfsId] = useState<string>('');
 
-    useLayoutEffect(() => {
-        getStops();
-    }, [])
+    useEffect(() => {
+        getStopsByRadius();
+    }, []);
 
-    const getStops = async () => {
+    const handleShowModal = (gtfsId: string) => {
+        setGtfsId(gtfsId);
+        setShowModal(true);
+    }
+
+    const handleCloseModal = () => setShowModal(false);
+
+    const getStopsByRadius = async () => {
         const body = `{
-            stops {
-              gtfsId
-              name
-              lat
-              lon
+            stopsByRadius(lat:60.199, lon:24.938, radius:500) {
+              edges {
+                node {
+                  stop {
+                    gtfsId
+                    name
+                    lat
+                    lon
+                  }
+                }
+              }
             }
           }`;
         const config = {
@@ -32,27 +40,36 @@ export default function MapScreen() {
             method: "POST",
             body: body
         }
-
-
         const response = await fetch('https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql', config);
         if (!response.ok) {
             console.error(response.status);
         }
         const responseData = await response.json();
-        setStops(responseData.data.stops);
+        setStops(responseData.data.stopsByRadius.edges);
     }
 
-
     return (
-        <MapView
-            style={{ width: '100%', height: '100%' }}
-            initialRegion={{ latitude: 60.1709963199927, longitude: 24.935126933661387, latitudeDelta: 0.09, longitudeDelta: 0.04 }}
-        >
-
-            {stops.slice(0, 1000).map(stop => <Marker key={stop.gtfsId} coordinate={{ latitude: stop.lat, longitude: stop.lon }} />)}
-
-
-
-        </MapView>
+        <>
+            <MapView
+                style={{ width: '100%', height: '100%' }}
+                initialRegion={{
+                    latitude: 60.1709963199927,
+                    longitude: 24.935126933661387,
+                    latitudeDelta: 0.09,
+                    longitudeDelta: 0.04
+                }}
+            >
+                {stops.map((stop, index) =>
+                    <Marker
+                        key={index}
+                        coordinate={{
+                            latitude: stop.node.stop.lat,
+                            longitude: stop.node.stop.lon
+                        }}
+                        title={stop.node.stop.name}
+                        onPress={() => handleShowModal(stop.node.stop.gtfsId)} />)}
+            </MapView>
+            <TimetableModal showModal={showModal} gtfsId={gtfsId} closeModal={handleCloseModal} />
+        </>
     )
 }

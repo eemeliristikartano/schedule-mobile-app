@@ -29,3 +29,20 @@ type Trip = {
     id: string
 }
 
+export type Stops = {
+    node: Node
+
+}
+
+type Node = {
+    stop: Stop
+}
+
+type Stop = {
+    gtfsId: string
+    name: string
+    lat: number
+    lon: number
+
+}
+
