@@ -38,7 +38,7 @@ type Node = {
     stop: Stop
 }
 
-type Stop = {
+export type Stop = {
     gtfsId: string
     name: string
     lat: number

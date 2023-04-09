@@ -79,6 +79,11 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
+                            variant='ghost'
+                        >
+                            <Ionicons name='star-outline' size={20} />
+                        </Button>
+                        <Button
                             onPress={() => {
                                 setIsLoading(true);
                                 getTimetable();
