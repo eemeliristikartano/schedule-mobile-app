@@ -1,13 +1,12 @@
 import { Box, Button, Center, FlatList, Square, Stack, Text } from 'native-base';
 import { Stop } from "../types/Types";
 import MapView, { Marker } from 'react-native-maps';
-
 import { Ionicons } from '@expo/vector-icons';
+import SaveStopToFirebase from '../utils/SaveStopToFavoriteStops';
 
 type Props = {
     stops: Stop[]
 }
-
 
 export default function StopsFromSearch({ stops }: Props) {
     return (
@@ -21,7 +20,7 @@ export default function StopsFromSearch({ stops }: Props) {
                                 <Text bold fontSize='xl'>{item.name}</Text>
                                 <Text fontSize='xl' >{item.code}</Text>
                                 <Text fontSize='xl' >{item.desc}</Text>
-                                <Button variant='ghost'>
+                                <Button variant='ghost' onPress={() => SaveStopToFirebase(item)}>
                                     <Ionicons name='star-outline' size={20} />
                                 </Button>
                             </Stack>

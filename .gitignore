@@ -21,3 +21,5 @@ web-build/
 
 # Tests coverage
 coverage
+
+dbconfig.ts

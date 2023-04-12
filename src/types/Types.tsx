@@ -1,6 +1,7 @@
 export type UsersFavoriteStops = {
     gtfsId: string
     name: string
+    key: string
 }
 
 export type TTimetable = {
