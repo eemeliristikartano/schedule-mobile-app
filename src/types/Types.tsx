@@ -43,6 +43,7 @@ export type Stop = {
     name: string
     lat: number
     lon: number
-
+    desc: string
+    code: string
 }
 
