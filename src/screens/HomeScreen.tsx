@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Spacer, Text } from "native-base";
+import { Flex } from "native-base";
 import FavoriteRoutes from "../components/FavoriteRoutes";
 import FavoriteStops from "../components/FavoriteStops";
 

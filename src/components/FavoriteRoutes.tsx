@@ -1,4 +1,4 @@
-import { Box, Divider, FlatList, HStack, Text } from "native-base";
+import { Box, Divider, FlatList, Text } from "native-base";
 import { useState } from 'react'
 
 export default function FavoriteRoutes() {

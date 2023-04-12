@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import MapScreen from '../screens/MapScreen';
 import { Ionicons } from '@expo/vector-icons';
-import StopSearch from '../screens/StopSearch';
+import StopSearchScreen from '../screens/StopSearchScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,7 +31,7 @@ export default function Navigation() {
             <Tab.Navigator screenOptions={screenOptions} >
                 <Tab.Screen name="Etusivu" component={HomeScreen} />
                 <Tab.Screen name='Lähipysäkit' component={MapScreen} />
-                <Tab.Screen name='Pysäkkihaku' component={StopSearch} />
+                <Tab.Screen name='Pysäkkihaku' component={StopSearchScreen} />
             </Tab.Navigator>
         </NavigationContainer>
     );
