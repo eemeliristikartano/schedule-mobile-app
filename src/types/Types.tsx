@@ -1,6 +1,10 @@
 export type UsersFavoriteStops = {
     gtfsId: string
     name: string
+    lat: number
+    lon: number
+    desc: string
+    code: string
     key: string
 }
 

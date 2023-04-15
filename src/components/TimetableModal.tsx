@@ -1,17 +1,21 @@
 import { Button, Modal, Spinner } from "native-base";
 import { useState, useEffect } from "react";
-import { TTimetable } from "../types/Types";
+import { Stop, TTimetable } from "../types/Types";
 import { API_KEY } from "@env";
 import Timetable from "./Timetable";
 import { Ionicons } from '@expo/vector-icons';
 
+import { push, ref, onValue } from 'firebase/database';
+import { database } from "../../dbconfig";
+import SaveStopToFirebase from "../utils/SaveStopToFirebase";
+
 type Props = {
     showModal: boolean
-    gtfsId: string
+    stop: Stop | undefined
     closeModal: () => void
 }
 
-export default function TimetableModal({ gtfsId, showModal, closeModal }: Props) {
+export default function TimetableModal({ stop, showModal, closeModal }: Props) {
     const [timetable, setTimetable] = useState<TTimetable>();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -21,10 +25,15 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
 
     const getTimetable = async () => {
         const body = `{
-            stop(id: "${gtfsId}") {
-              name
+            stop(id: "${stop?.gtfsId}") {
               platformCode
               vehicleMode
+              desc
+              gtfsId
+              name
+              code
+              lat
+              lon
                 stoptimesWithoutPatterns(numberOfDepartures: 10) {
                 scheduledArrival
                 realtimeArrival
@@ -58,7 +67,6 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
     }
 
 
-
     return (
         !isLoading ?
             <Modal
@@ -79,7 +87,7 @@ export default function TimetableModal({ gtfsId, showModal, closeModal }: Props)
                     </Modal.Body>
                     <Modal.Footer>
                         <Button
-                            variant='ghost'
+                            variant='ghost' onPress={() => SaveStopToFirebase(stop!)}
                         >
                             <Ionicons name='star-outline' size={20} />
                         </Button>

@@ -1,7 +1,7 @@
 import { Box, Button, Divider, FlatList, Text } from "native-base";
 import { useState, useEffect } from 'react'
 import { TouchableWithoutFeedback } from "react-native";
-import { UsersFavoriteStops } from "../types/Types";
+import { Stop, UsersFavoriteStops } from "../types/Types";
 import TimetableModal from "./TimetableModal";
 import { ref, onValue } from 'firebase/database';
 import { database } from "../../dbconfig";
@@ -10,10 +10,10 @@ import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
 export default function FavoriteStops() {
     const [favoriteStops, setFavoriteStops] = useState<UsersFavoriteStops[]>([]);
     const [showModal, setShowModal] = useState(false);
-    const [gtfsId, setGtfsId] = useState<string>('');
+    const [stop, setStop] = useState<Stop>();
 
-    const handleShowModal = (gtfsId: string) => {
-        setGtfsId(gtfsId);
+    const handleShowModal = (stop: Stop) => {
+        setStop(stop);
         setShowModal(true);
     }
 
@@ -22,19 +22,18 @@ export default function FavoriteStops() {
     useEffect(() => getFavoriteStops(), [])
 
     const getFavoriteStops = () => {
-        const itemsRefs = ref(database, 'favoriteStops/');
+        const itemsRefs = ref(database, 'favoriteStops/1');
         onValue(itemsRefs, (snapshot) => {
             const data = snapshot.val();
-            const keys = Object.keys(data);
-            const dataWithKeys = Object.values(data).map((obj: any, index) => {
-                return { ...obj, key: keys[index] }
-            });
-            setFavoriteStops(dataWithKeys);
+            if (data) {
+                const keys = Object.keys(data);
+                const dataWithKeys = Object.values(data).map((obj: any, index) => {
+                    return { ...obj, key: keys[index] }
+                });
+                setFavoriteStops(dataWithKeys);
+            }
         });
     }
-
-    console.log(favoriteStops)
-
 
     return (
         <Box variant='homeScreenBox'>
@@ -43,7 +42,7 @@ export default function FavoriteStops() {
                 data={favoriteStops}
                 keyExtractor={item => item.gtfsId}
                 renderItem={({ item }) =>
-                    <TouchableWithoutFeedback onPress={() => handleShowModal(item.gtfsId)} >
+                    <TouchableWithoutFeedback onPress={() => handleShowModal(item)} >
                         <Box p='2' >
                             <Text variant='homeScreenBoxText'>{item.name}</Text>
                             <Divider bg='muted.200' marginTop='2' />
@@ -51,7 +50,7 @@ export default function FavoriteStops() {
                         </Box>
                     </TouchableWithoutFeedback>
                 } />
-            <TimetableModal showModal={showModal} gtfsId={gtfsId} closeModal={handleCloseModal} />
+            <TimetableModal showModal={showModal} stop={stop} closeModal={handleCloseModal} />
         </Box>
     )
 }

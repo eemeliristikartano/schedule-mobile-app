@@ -1,5 +1,5 @@
 import MapView, { Marker } from "react-native-maps";
-import { Stops } from "../types/Types";
+import { Stop, Stops } from "../types/Types";
 import { useEffect, useState } from "react";
 import { API_KEY } from "@env";
 import TimetableModal from "./TimetableModal";
@@ -7,11 +7,11 @@ import TimetableModal from "./TimetableModal";
 export default function MapForStopsByRadius() {
     const [stops, setStops] = useState<Stops[]>([]);
     const [showModal, setShowModal] = useState(false);
-    const [gtfsId, setGtfsId] = useState<string>('');
+    const [stop, setStop] = useState<Stop>();
 
 
-    const handleShowModal = (gtfsId: string) => {
-        setGtfsId(gtfsId);
+    const handleShowModal = (stop: Stop) => {
+        setStop(stop);
         setShowModal(true);
     }
 
@@ -33,6 +33,8 @@ export default function MapForStopsByRadius() {
                     name
                     lat
                     lon
+                    desc
+                    code
                   }
                 }
               }
@@ -70,9 +72,9 @@ export default function MapForStopsByRadius() {
                             longitude: stop.node.stop.lon
                         }}
                         title={stop.node.stop.name}
-                        onPress={() => handleShowModal(stop.node.stop.gtfsId)} />)}
+                        onPress={() => handleShowModal(stop.node.stop)} />)}
             </MapView>
-            <TimetableModal showModal={showModal} gtfsId={gtfsId} closeModal={handleCloseModal} />
+            <TimetableModal showModal={showModal} stop={stop} closeModal={handleCloseModal} />
         </>
     )
 }
