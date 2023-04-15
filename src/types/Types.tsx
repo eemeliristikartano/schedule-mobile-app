@@ -50,5 +50,6 @@ export type Stop = {
     lon: number
     desc: string
     code: string
+    key: string
 }
 

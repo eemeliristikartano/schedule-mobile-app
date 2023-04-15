@@ -24,10 +24,8 @@ export const theme = extendTheme({
                     p: '15px',
                     margin: '3',
                     w: '90%',
-                    h: '200px',
                     borderRadius: 'xl',
-                    flexDir: 'row',
-                    justifyContent: 'space-evenly',
+
                 }
             },
             sizes: {}

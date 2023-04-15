@@ -22,7 +22,7 @@ export default function FavoriteStops() {
     useEffect(() => getFavoriteStops(), [])
 
     const getFavoriteStops = () => {
-        const itemsRefs = ref(database, 'favoriteStops/1');
+        const itemsRefs = ref(database, 'favoriteStops/');
         onValue(itemsRefs, (snapshot) => {
             const data = snapshot.val();
             if (data) {

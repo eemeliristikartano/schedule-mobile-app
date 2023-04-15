@@ -4,7 +4,7 @@ import { database } from "../../dbconfig";
 
 export default function SaveStopToFirebase(stop: Stop) {
     push(
-        ref(database, 'favoriteStops/1'),
+        ref(database, 'favoriteStops/'),
         {
             gtfsId: stop.gtfsId,
             name: stop.name,

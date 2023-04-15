@@ -1,4 +1,4 @@
-import { Button, Modal, Spinner } from "native-base";
+import { Button, Icon, IconButton, Modal, Spinner } from "native-base";
 import { useState, useEffect } from "react";
 import { Stop, TTimetable } from "../types/Types";
 import { API_KEY } from "@env";
@@ -86,20 +86,18 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
                         <Timetable timetable={timetable} />
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button
-                            variant='ghost' onPress={() => SaveStopToFirebase(stop!)}
-                        >
-                            <Ionicons name='star-outline' size={20} />
-                        </Button>
-                        <Button
+                        <IconButton
+                            size='lg'
+                            icon={<Icon as={Ionicons} name='star-outline' />}
+                            onPress={() => SaveStopToFirebase(stop!)}
+                        />
+                        <IconButton
+                            size='lg'
                             onPress={() => {
                                 setIsLoading(true);
                                 getTimetable();
                             }}
-                            variant='ghost'
-                        >
-                            <Ionicons name='refresh' size={20} />
-                        </Button>
+                            icon={<Icon as={Ionicons} name='refresh' />} />
                     </Modal.Footer>
                 </Modal.Content>
             </Modal>
