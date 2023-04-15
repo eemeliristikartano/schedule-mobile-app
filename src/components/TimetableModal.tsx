@@ -1,13 +1,14 @@
-import { Button, Icon, IconButton, Modal, Spinner } from "native-base";
+import { Icon, IconButton, Modal, Spinner } from "native-base";
 import { useState, useEffect } from "react";
-import { Stop, TTimetable } from "../types/Types";
+import { Stop, TTimetable, UsersFavoriteStops } from "../types/Types";
 import { API_KEY } from "@env";
 import Timetable from "./Timetable";
 import { Ionicons } from '@expo/vector-icons';
 
-import { push, ref, onValue } from 'firebase/database';
+import { ref, get, orderByChild, query } from 'firebase/database';
 import { database } from "../../dbconfig";
 import SaveStopToFirebase from "../utils/SaveStopToFirebase";
+import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
 
 type Props = {
     showModal: boolean
@@ -18,10 +19,12 @@ type Props = {
 export default function TimetableModal({ stop, showModal, closeModal }: Props) {
     const [timetable, setTimetable] = useState<TTimetable>();
     const [isLoading, setIsLoading] = useState(true);
+    const [favoriteStopIds, setFavoriteStopIds] = useState<UsersFavoriteStops[]>([]);
 
     useEffect(() => {
         if (showModal) getTimetable(); // Gets timetable only if the state is undefined. 
     }, [showModal]);
+
 
     const getTimetable = async () => {
         const body = `{
@@ -66,6 +69,33 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
         setIsLoading(false);
     }
 
+    useEffect(() => {
+        fetchFavoriteStops();
+    }, [stop]);
+
+    const fetchFavoriteStops = async () => {
+        const favoriteStopsRef = ref(database, "favoriteStops/");
+        const favoriteStopsQuery = query(favoriteStopsRef, orderByChild("gtfsId"));
+        try {
+            const snapshot = await get(favoriteStopsQuery);
+            const data = snapshot.val();
+            if (data) {
+                const keys = Object.keys(data);
+                const dataWithKeys = Object.values(data).map((obj: any, index) => {
+                    return { ...obj, key: keys[index] }
+                });
+                setFavoriteStopIds(dataWithKeys);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+
+    const isUsersFavoriteStop = (gtfsId: string) => favoriteStopIds.find((element) => element.gtfsId === gtfsId)
+
 
     return (
         !isLoading ?
@@ -86,11 +116,25 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
                         <Timetable timetable={timetable} />
                     </Modal.Body>
                     <Modal.Footer>
-                        <IconButton
-                            size='lg'
-                            icon={<Icon as={Ionicons} name='star-outline' />}
-                            onPress={() => SaveStopToFirebase(stop!)}
-                        />
+                        {isUsersFavoriteStop(stop!.gtfsId) ?
+                            <IconButton
+                                size='lg'
+                                icon={<Icon as={Ionicons} name='star' />}
+                                onPress={() => {
+                                    RemoveStopFromFirebase(favoriteStopIds.find((stopa) => stopa.gtfsId === stop!.gtfsId)!.key);
+                                    fetchFavoriteStops();
+                                }}
+                            />
+                            :
+                            <IconButton
+                                size='lg'
+                                icon={<Icon as={Ionicons} name='star-outline' />}
+                                onPress={() => {
+                                    SaveStopToFirebase(stop!)
+                                    fetchFavoriteStops();
+                                }}
+                            />
+                        }
                         <IconButton
                             size='lg'
                             onPress={() => {

@@ -27,7 +27,7 @@ export default function StopsFromSearch({ stops }: Props) {
 
     useEffect(() => {
         fetchFavoriteStops();
-    }, [stop]);
+    }, [stops]);
 
     const fetchFavoriteStops = async () => {
         const favoriteStopsRef = ref(database, "favoriteStops/");
