@@ -1,5 +1,5 @@
 import { Stop } from "../types/Types";
-import { push, ref, onValue } from 'firebase/database';
+import { push, ref } from 'firebase/database';
 import { database } from "../../dbconfig";
 
 export default function SaveStopToFirebase(stop: Stop) {

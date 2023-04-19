@@ -24,12 +24,12 @@ export default function Timetable({ timetable }: Props) {
                         <Text>{trip.trip.routeShortName}</Text>
                         <Text>{trip.headsign}</Text>
                         {trip.departureDelay < 60 ?
-                            <Text bold color={trip.realtime ? 'green.600' : 'black'} >{formatTime(countHours(trip.scheduledDeparture))}:{formatTime(countMinutes(trip.scheduledDeparture))}</Text>
+                            <Text bold color={trip.realtime ? 'green.600' : 'black'} >{formatTime(trip.scheduledDeparture)}</Text>
                             :
                             <Flex flexDirection='row' >
                                 <Stack space={1} direction='row'>
-                                    <Text strikeThrough >{formatTime(countHours(trip.scheduledDeparture))}:{formatTime(countMinutes(trip.scheduledDeparture))}</Text>
-                                    <Text bold color={trip.realtime ? 'green.600' : 'black'}>{formatTime(countHours(trip.realtimeDeparture))}:{formatTime(countMinutes(trip.realtimeDeparture))}</Text>
+                                    <Text strikeThrough >{formatTime(trip.scheduledDeparture)}</Text>
+                                    <Text bold color={trip.realtime ? 'green.600' : 'black'}>{formatTime(trip.realtimeDeparture)}</Text>
                                 </Stack>
                             </Flex>
                         }
