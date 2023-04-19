@@ -1,7 +1,6 @@
 import { Box, Text, Divider, Flex, Stack } from "native-base";
 import { TTimetable } from "../types/Types";
 import { formatTime } from "../utils/FormatTime";
-import { countHours, countMinutes } from "../utils/TimeCalculations";
 
 type Props = {
     timetable: TTimetable | undefined
