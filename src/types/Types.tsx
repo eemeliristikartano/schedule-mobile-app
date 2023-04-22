@@ -53,3 +53,45 @@ export type Stop = {
     key: string
 }
 
+export type FoundAddresses = {
+    from: Address
+    to: Address
+}
+
+type Address = {
+    features: Features[]
+    key: string
+}
+
+type Geocoding = {
+    features: Features
+}
+
+type Features = {
+    geometry: Coordinates
+    properties: Properties
+}
+
+type Coordinates = {
+    coordinates: number[]
+}
+
+type Properties = {
+    street: string
+    housenumber: string
+    postalcode: string
+    locality: string
+    name: string
+}
+
+export type Route = {
+    key: string,
+    latFrom: number
+    lonFrom: number
+    latTo: number
+    lonTo: number
+    nameFrom: string
+    nameTo: string
+
+}
+
