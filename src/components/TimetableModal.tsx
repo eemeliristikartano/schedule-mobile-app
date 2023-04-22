@@ -1,6 +1,6 @@
 import { Icon, IconButton, Modal, Spinner } from "native-base";
 import { useState, useEffect } from "react";
-import { Stop, TTimetable, UsersFavoriteStops } from "../types/Types";
+import { Stop, TTimetable } from "../types/Types";
 import { API_KEY } from "@env";
 import Timetable from "./Timetable";
 import { Ionicons } from '@expo/vector-icons';
@@ -19,7 +19,7 @@ type Props = {
 export default function TimetableModal({ stop, showModal, closeModal }: Props) {
     const [timetable, setTimetable] = useState<TTimetable>();
     const [isLoading, setIsLoading] = useState(true);
-    const [favoriteStopIds, setFavoriteStopIds] = useState<UsersFavoriteStops[]>([]);
+    const [favoriteStopIds, setFavoriteStopIds] = useState<Stop[]>([]);
 
     useEffect(() => {
         if (showModal) getTimetable(); // Gets timetable only if the state is undefined. 

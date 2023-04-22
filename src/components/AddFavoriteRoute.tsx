@@ -1,11 +1,8 @@
 import { API_KEY } from "@env";
-import { Box, Button, Divider, FlatList, FormControl, Input, Modal, Stack, Text } from "native-base";
-import { useState, useEffect } from 'react'
+import { Button, FormControl, Input, Modal, Stack } from "native-base";
+import { useState } from 'react'
 import { FoundAddresses } from "../types/Types";
 import SaveRouteToFirebase from "../utils/SaveRouteToFirebase";
-import { ref, onValue } from "firebase/database";
-import { database } from "../../dbconfig";
-import { TouchableWithoutFeedback } from "react-native";
 
 type Props = {
     showModal: boolean

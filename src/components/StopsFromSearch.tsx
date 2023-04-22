@@ -1,5 +1,5 @@
 import { Box, Button, Center, FlatList, Flex, Icon, IconButton, Square, Stack, Text } from 'native-base';
-import { Stop, UsersFavoriteStops } from "../types/Types";
+import { Stop } from "../types/Types";
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import SaveStopToFirebase from '../utils/SaveStopToFirebase';
@@ -16,7 +16,7 @@ type Props = {
 export default function StopsFromSearch({ stops }: Props) {
     const [showModal, setShowModal] = useState(false);
     const [stop, setStop] = useState<Stop>();
-    const [favoriteStopIds, setFavoriteStopIds] = useState<UsersFavoriteStops[]>([]);
+    const [favoriteStopIds, setFavoriteStopIds] = useState<Stop[]>([]);
 
     const handleShowModal = (stop: Stop) => {
         setStop(stop);

@@ -1,13 +1,3 @@
-export type UsersFavoriteStops = {
-    gtfsId: string
-    name: string
-    lat: number
-    lon: number
-    desc: string
-    code: string
-    key: string
-}
-
 export type TTimetable = {
     name: string
     platformCode: string
@@ -63,10 +53,6 @@ type Address = {
     key: string
 }
 
-type Geocoding = {
-    features: Features
-}
-
 type Features = {
     geometry: Coordinates
     properties: Properties
@@ -92,6 +78,5 @@ export type Route = {
     lonTo: number
     nameFrom: string
     nameTo: string
-
 }
 

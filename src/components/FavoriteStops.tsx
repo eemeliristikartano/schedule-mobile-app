@@ -1,14 +1,14 @@
 import { Box, Button, Divider, FlatList, Text } from "native-base";
 import { useState, useEffect } from 'react'
 import { TouchableWithoutFeedback } from "react-native";
-import { Stop, UsersFavoriteStops } from "../types/Types";
+import { Stop } from "../types/Types";
 import TimetableModal from "./TimetableModal";
 import { ref, onValue } from 'firebase/database';
 import { database } from "../../dbconfig";
 import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
 
 export default function FavoriteStops() {
-    const [favoriteStops, setFavoriteStops] = useState<UsersFavoriteStops[]>([]);
+    const [favoriteStops, setFavoriteStops] = useState<Stop[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [stop, setStop] = useState<Stop>();
 
