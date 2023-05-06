@@ -12,7 +12,7 @@ export default function SaveStopToFirebase(stop: Stop) {
             lon: stop.lon,
             desc: stop.desc,
             code: stop.code,
-            gtfsId_useId: `${stop.gtfsId}_1234`
+            gtfsId_userId: `${stop.gtfsId}_1234`
         }
     )
 }

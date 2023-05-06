@@ -10,7 +10,7 @@ export const theme = extendTheme({
             variants: {
                 homeScreenBox: {
                     w: '90%',
-                    h: '40%',
+                    h: '47%',
                     bg: 'muted.300',
                     borderRadius: 'xl',
                     p: '15px',

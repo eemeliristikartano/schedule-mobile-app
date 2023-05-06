@@ -1,11 +1,12 @@
-import { Box, Button, Divider, FlatList, Text } from "native-base";
+import { Box, Button, Divider, FlatList, Icon, IconButton, Text } from "native-base";
 import { useState, useEffect } from 'react'
-import { TouchableWithoutFeedback } from "react-native";
+import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { Stop } from "../types/Types";
 import TimetableModal from "./TimetableModal";
 import { ref, onValue } from 'firebase/database';
 import { database } from "../../dbconfig";
 import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function FavoriteStops() {
     const [favoriteStops, setFavoriteStops] = useState<Stop[]>([]);
@@ -42,13 +43,17 @@ export default function FavoriteStops() {
                 data={favoriteStops}
                 keyExtractor={item => item.gtfsId}
                 renderItem={({ item }) =>
-                    <TouchableWithoutFeedback onPress={() => handleShowModal(item)} >
-                        <Box p='2' >
-                            <Text variant='homeScreenBoxText'>{item.name}</Text>
-                            <Divider bg='muted.200' marginTop='2' />
-                            <Button onPress={() => RemoveStopFromFirebase(item.key)} ></Button>
+                    <TouchableOpacity onPress={() => handleShowModal(item)}>
+                        <Box p='2' flexDir='row'>
+                            <Text w='3/4' variant='homeScreenBoxText'>{item.name}</Text>
+                            <IconButton
+                                w='1/4'
+                                icon={<Icon as={Ionicons} name="trash" />}
+                                onPress={() => RemoveStopFromFirebase(item.key)}
+                            />
                         </Box>
-                    </TouchableWithoutFeedback>
+                        <Divider bg='muted.200' marginTop='2' />
+                    </TouchableOpacity>
                 } />
             <TimetableModal showModal={showModal} stop={stop} closeModal={handleCloseModal} />
         </Box>

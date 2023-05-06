@@ -74,35 +74,33 @@ export default function MapForStopsByRadius() {
     }
 
     return (
-        location.lat < 0 ?
-            <View>
-                <Center>
-                    <Spinner accessibilityLabel="Loading" />
-                </Center>
-            </View>
-            :
-            <>
-                <MapView
-                    style={{ width: '100%', height: '100%' }}
-                    initialRegion={{
-                        latitude: location.lat,
-                        longitude: location.lon,
-                        latitudeDelta: 0.09,
-                        longitudeDelta: 0.04
-                    }}
-                >
-                    {stops.map((stop, index) =>
-                        <Marker
-                            key={index}
-                            coordinate={{
-                                latitude: stop.node.stop.lat,
-                                longitude: stop.node.stop.lon
-                            }}
-                            title={stop.node.stop.name}
-                            onPress={() => handleShowModal(stop.node.stop)} />)}
-                </MapView>
-                <TimetableModal showModal={showModal} stop={stop} closeModal={handleCloseModal} />
-
-            </>
+        <>
+            <MapView
+                style={{ width: '100%', height: '100%' }}
+                initialRegion={{
+                    latitude: location.lat,
+                    longitude: location.lon,
+                    latitudeDelta: 0.09,
+                    longitudeDelta: 0.04
+                }}
+                region={{
+                    latitude: location.lat,
+                    longitude: location.lon,
+                    latitudeDelta: 0.09,
+                    longitudeDelta: 0.04
+                }}
+            >
+                {stops.map((stop, index) =>
+                    <Marker
+                        key={index}
+                        coordinate={{
+                            latitude: stop.node.stop.lat,
+                            longitude: stop.node.stop.lon
+                        }}
+                        title={stop.node.stop.name}
+                        onPress={() => handleShowModal(stop.node.stop)} />)}
+            </MapView>
+            <TimetableModal showModal={showModal} stop={stop} closeModal={handleCloseModal} />
+        </>
     )
 }
