@@ -3,6 +3,7 @@ import { Button, FormControl, Input, Modal, Stack } from "native-base";
 import { useState } from 'react'
 import { FoundAddresses } from "../types/Types";
 import SaveRouteToFirebase from "../utils/SaveRouteToFirebase";
+import { err } from "react-native-svg/lib/typescript/xml";
 
 type Props = {
     showModal: boolean
@@ -29,12 +30,15 @@ export default function AddFavoriteRoute({ showModal, closeModal }: Props) {
             setFoundAddresses({
                 from: dataForFrom,
                 to: dataForTo
-            })
-
+            });
+            SaveRouteToFirebase(foundAddresses!);
+            setFoundAddresses(undefined);
+            setSearchWords({ from: '', to: '' });
+            closeModal();
         } catch (error) {
-
+            console.log(error)
         }
-        SaveRouteToFirebase(foundAddresses!);
+
 
     }
 
@@ -42,7 +46,10 @@ export default function AddFavoriteRoute({ showModal, closeModal }: Props) {
         <Modal
             isOpen={showModal}
             size='full'
-            onClose={() => closeModal()}
+            onClose={() => {
+                setFoundAddresses(undefined);
+                closeModal();
+            }}
         >
             <Modal.Content>
                 <Modal.CloseButton />

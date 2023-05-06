@@ -5,13 +5,13 @@ import { database } from "../../dbconfig";
 import { TouchableWithoutFeedback } from "react-native";
 import AddFavoriteRoute from "./AddFavoriteRoute";
 import ItineraryPlanModal from "./ItineraryPlanModal";
-import { Route } from "../types/Types";
+import { FavoriteRoute } from "../types/Types";
 
 export default function FavoriteRoutes() {
-    const [route, setRoute] = useState<Route>();
+    const [route, setRoute] = useState<FavoriteRoute>();
     const [showItineraryModal, setShowItineraryModal] = useState<boolean>(false);
     const [showAddRouteModal, setShowAddRouteModal] = useState<boolean>(false);
-    const [favoriteRoutes, setFavoriteRoutes] = useState<Route[]>();
+    const [favoriteRoutes, setFavoriteRoutes] = useState<FavoriteRoute[]>();
 
     const getFavoriteRoutes = () => {
         const itemsRefs = ref(database, 'favoriteRoutes/');
@@ -31,9 +31,12 @@ export default function FavoriteRoutes() {
         getFavoriteRoutes();
     }, [])
 
-    const closeAddRouteModal = () => setShowAddRouteModal(false);
+    const closeAddRouteModal = () => {
+        getFavoriteRoutes();
+        setShowAddRouteModal(false);
+    }
 
-    const handelItineraryModal = (item: Route) => {
+    const handelItineraryModal = (item: FavoriteRoute) => {
         setRoute(item);
         setShowItineraryModal(true);
     }

@@ -1,3 +1,5 @@
+import { type } from "node:os"
+
 export type TTimetable = {
     name: string
     platformCode: string
@@ -70,7 +72,7 @@ type Properties = {
     name: string
 }
 
-export type Route = {
+export type FavoriteRoute = {
     key: string,
     latFrom: number
     lonFrom: number
@@ -78,5 +80,32 @@ export type Route = {
     lonTo: number
     nameFrom: string
     nameTo: string
+}
+
+export type Itineraries = {
+    legs: Legs[]
+}
+
+type Legs = {
+    from: From
+    to: To
+    startTime: number
+    endTime: number
+    mode: string
+    duration: number
+    distance: number
+    route: Route
+}
+
+type From = {
+    name: string
+}
+
+type To = {
+    name: string
+}
+
+type Route = {
+    shortName: string
 }
 
