@@ -7,7 +7,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { UserContext } from "../AppContext";
 import { useContext } from 'react'
 
-import { ref, get, orderByChild, query } from 'firebase/database';
+import { ref, onValue } from 'firebase/database';
 import { database } from "../../dbconfig";
 import SaveStopToFirebase from "../utils/SaveStopToFirebase";
 import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
@@ -77,10 +77,8 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
     }, [stop]);
 
     const fetchFavoriteStops = async () => {
-        const favoriteStopsRef = ref(database, `favoriteStops/${userContext.userUid}`);
-        const favoriteStopsQuery = query(favoriteStopsRef, orderByChild("gtfsId"));
-        try {
-            const snapshot = await get(favoriteStopsQuery);
+        const itemsRefs = ref(database, `favoriteStops/${userContext.userUid}`);
+        onValue(itemsRefs, (snapshot) => {
             const data = snapshot.val();
             if (data) {
                 const keys = Object.keys(data);
@@ -88,10 +86,9 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
                     return { ...obj, key: keys[index] }
                 });
                 setFavoriteStopIds(dataWithKeys);
+
             }
-        } catch (error) {
-            console.log(error);
-        }
+        });
     }
 
 
