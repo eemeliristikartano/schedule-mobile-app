@@ -22,5 +22,7 @@ This project uses the following technologies:
 - Native Base
 - Firebase
 
+- API: https://digitransit.fi/en/developers/apis/
+
 ## Author
 This readme file was written by ChatGPT and modified a little by a human.
