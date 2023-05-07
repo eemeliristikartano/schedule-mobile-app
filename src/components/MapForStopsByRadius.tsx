@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { API_KEY } from "@env";
 import TimetableModal from "./TimetableModal";
 import * as Location from 'expo-location';
-import { View, Text, Spinner, Center } from "native-base";
 
 export default function MapForStopsByRadius() {
     const [stops, setStops] = useState<Stops[]>([]);

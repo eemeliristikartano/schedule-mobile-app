@@ -1,11 +1,10 @@
-import { FoundAddresses, Stop } from "../types/Types";
+import { FoundAddresses } from "../types/Types";
 import { push, ref } from 'firebase/database';
 import { database } from "../../dbconfig";
-import { useAuthentication } from "./useAuthentication";
 
-export default function SaveRouteToFirebase(addresses: FoundAddresses) {
+export default function SaveRouteToFirebase(addresses: FoundAddresses, userUid: string) {
     push(
-        ref(database, `favoriteRoutes/`),
+        ref(database, `favoriteRoutes/${userUid}`),
         {
             nameFrom: addresses.from.features[0].properties.name,
             latFrom: addresses.from.features[0].geometry.coordinates[1],

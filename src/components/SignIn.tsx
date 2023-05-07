@@ -1,12 +1,9 @@
 import { Box, Button, Center, FormControl, Input, Stack, Text } from 'native-base';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { UserContext } from '../AppContext';
-import { useAuthentication } from '../utils/useAuthentication';
 
 
 export default function SignIn() {
-    const userContext = useContext(UserContext);
     const auth = getAuth();
     const [credentials, setCredentials] = useState({
         email: '',

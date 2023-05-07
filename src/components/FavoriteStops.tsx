@@ -1,13 +1,12 @@
-import { Box, Button, Divider, FlatList, Icon, IconButton, Text } from "native-base";
+import { Box, Divider, FlatList, Icon, IconButton, Text } from "native-base";
 import { useState, useEffect, useContext } from 'react'
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Stop } from "../types/Types";
 import TimetableModal from "./TimetableModal";
 import { ref, onValue } from 'firebase/database';
 import { database } from "../../dbconfig";
 import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
 import { Ionicons } from '@expo/vector-icons';
-import { useAuthentication } from "../utils/useAuthentication";
 import { UserContext } from "../AppContext";
 
 export default function FavoriteStops() {

@@ -1,23 +1,24 @@
-import { Box, Button, Divider, FlatList, Flex, Icon, IconButton, Text } from "native-base";
-import { useState, useEffect } from 'react'
+import { Box, Divider, FlatList, Flex, Icon, IconButton, Text } from "native-base";
+import { useState, useEffect, useContext } from 'react'
 import { ref, onValue } from "firebase/database";
 import { database } from "../../dbconfig";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { TouchableOpacity } from "react-native";
 import AddFavoriteRoute from "./AddFavoriteRoute";
 import ItineraryPlanModal from "./ItineraryPlanModal";
 import { FavoriteRoute } from "../types/Types";
-import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
 import { Ionicons } from '@expo/vector-icons';
 import RemoveRouteFromFirebase from "../utils/RemoveRouteFromFirebase";
+import { UserContext } from "../AppContext";
 
 export default function FavoriteRoutes() {
+    const userContext = useContext(UserContext);
     const [route, setRoute] = useState<FavoriteRoute>();
     const [showItineraryModal, setShowItineraryModal] = useState<boolean>(false);
     const [showAddRouteModal, setShowAddRouteModal] = useState<boolean>(false);
     const [favoriteRoutes, setFavoriteRoutes] = useState<FavoriteRoute[]>();
 
     const getFavoriteRoutes = () => {
-        const itemsRefs = ref(database, 'favoriteRoutes/');
+        const itemsRefs = ref(database, `favoriteRoutes/${userContext.userUid}`);
         onValue(itemsRefs, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -66,7 +67,7 @@ export default function FavoriteRoutes() {
                             <IconButton
                                 w='1/5'
                                 icon={<Icon as={Ionicons} name="trash" />}
-                                onPress={() => RemoveRouteFromFirebase(item.key)}
+                                onPress={() => RemoveRouteFromFirebase(item.key, userContext.userUid)}
                             />
                         </Box>
                         <Divider bg='muted.200' marginTop='2' />

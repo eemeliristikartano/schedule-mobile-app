@@ -11,7 +11,6 @@ import { ref, get, orderByChild, query } from 'firebase/database';
 import { database } from "../../dbconfig";
 import SaveStopToFirebase from "../utils/SaveStopToFirebase";
 import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
-import { useAuthentication } from "../utils/useAuthentication";
 
 type Props = {
     showModal: boolean
@@ -78,7 +77,7 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
     }, [stop]);
 
     const fetchFavoriteStops = async () => {
-        const favoriteStopsRef = ref(database, "favoriteStops/");
+        const favoriteStopsRef = ref(database, `favoriteStops/${userContext.userUid}`);
         const favoriteStopsQuery = query(favoriteStopsRef, orderByChild("gtfsId"));
         try {
             const snapshot = await get(favoriteStopsQuery);

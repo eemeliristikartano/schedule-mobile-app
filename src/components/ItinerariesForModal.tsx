@@ -19,7 +19,9 @@ export default function ItinerariesForModal({ route, itineraries }: Props) {
             case 'BUS':
                 return '🚌';
             case 'SUBWAY':
-                return '🚇'
+                return '🚇';
+            default:
+                return mode;
         }
     }
 

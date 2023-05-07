@@ -1,9 +1,9 @@
 import { API_KEY } from "@env";
 import { Button, FormControl, Input, Modal, Stack } from "native-base";
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { FoundAddresses } from "../types/Types";
 import SaveRouteToFirebase from "../utils/SaveRouteToFirebase";
-import { err } from "react-native-svg/lib/typescript/xml";
+import { UserContext } from "../AppContext";
 
 type Props = {
     showModal: boolean
@@ -12,6 +12,7 @@ type Props = {
 
 
 export default function AddFavoriteRoute({ showModal, closeModal }: Props) {
+    const userContext = useContext(UserContext);
     const [searchWords, setSearchWords] = useState({
         from: "",
         to: ""
@@ -31,7 +32,7 @@ export default function AddFavoriteRoute({ showModal, closeModal }: Props) {
                 from: dataForFrom,
                 to: dataForTo
             });
-            SaveRouteToFirebase(foundAddresses!);
+            SaveRouteToFirebase(foundAddresses!, userContext.userUid);
             setFoundAddresses(undefined);
             setSearchWords({ from: '', to: '' });
             closeModal();

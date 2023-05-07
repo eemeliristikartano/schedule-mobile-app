@@ -3,17 +3,19 @@ import { Stop } from "../types/Types";
 import MapView, { Marker } from 'react-native-maps';
 import { Ionicons } from '@expo/vector-icons';
 import SaveStopToFirebase from '../utils/SaveStopToFirebase';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import TimetableModal from './TimetableModal';
 import { get, orderByChild, query, ref } from 'firebase/database';
 import { database } from '../../dbconfig';
 import RemoveStopFromFirebase from '../utils/RemoveStopFromFirebase';
+import { UserContext } from "../AppContext";
 
 type Props = {
     stops: Stop[]
 }
 
 export default function StopsFromSearch({ stops }: Props) {
+    const userContext = useContext(UserContext);
     const [showModal, setShowModal] = useState(false);
     const [stop, setStop] = useState<Stop>();
     const [favoriteStopIds, setFavoriteStopIds] = useState<Stop[]>([]);
@@ -27,10 +29,10 @@ export default function StopsFromSearch({ stops }: Props) {
 
     useEffect(() => {
         fetchFavoriteStops();
-    }, [stops]);
+    }, []);
 
     const fetchFavoriteStops = async () => {
-        const favoriteStopsRef = ref(database, "favoriteStops/");
+        const favoriteStopsRef = ref(database, `favoriteStops/${userContext.userUid}`);
         const favoriteStopsQuery = query(favoriteStopsRef, orderByChild("gtfsId"));
         try {
             const snapshot = await get(favoriteStopsQuery);
@@ -66,7 +68,8 @@ export default function StopsFromSearch({ stops }: Props) {
                                                 size='lg'
                                                 icon={<Icon as={Ionicons} name='star' />}
                                                 onPress={() => {
-                                                    RemoveStopFromFirebase(favoriteStopIds.find((stop) => stop.gtfsId === item.gtfsId)!.key);
+                                                    RemoveStopFromFirebase(favoriteStopIds.find((stop) => stop.gtfsId === item.gtfsId)!.key, userContext.userUid);
+                                                    setFavoriteStopIds([]);
                                                     fetchFavoriteStops();
                                                 }}
                                             />
@@ -75,7 +78,8 @@ export default function StopsFromSearch({ stops }: Props) {
                                                 size='lg'
                                                 icon={<Icon as={Ionicons} name='star-outline' />}
                                                 onPress={() => {
-                                                    SaveStopToFirebase(item)
+                                                    SaveStopToFirebase(item, userContext.userUid);
+                                                    setFavoriteStopIds([]);
                                                     fetchFavoriteStops();
                                                 }}
                                             />

@@ -11,8 +11,7 @@ export default function SaveStopToFirebase(stop: Stop, userUid: string) {
             lat: stop.lat,
             lon: stop.lon,
             desc: stop.desc,
-            code: stop.code,
-            gtfsId_userId: `${stop.gtfsId}_1234`
+            code: stop.code
         }
     )
 }
