@@ -20,8 +20,8 @@ To run the app, you will need the following:
 This project uses the following technologies:
 - React Native
 - Native Base
-- Firebase
-
+- Firebase Realtime Database
+- Firebase Authentication
 - API: https://digitransit.fi/en/developers/apis/
 
 ## Author
