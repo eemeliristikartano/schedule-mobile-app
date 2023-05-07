@@ -1,13 +1,17 @@
 import React from "react";
 import { NativeBaseProvider } from "native-base";
-import Navigation from "./src/components/Navigation";
+import UserNavigation from "./src/navigation/UserNavigation";
 import { theme } from "./src/styles/Styles";
-import { Header } from "react-native/Libraries/NewAppScreen";
+import { useAuthentication } from "./src/utils/useAuthentication";
+import WelcomeScreen from "./src/screens/WelcomeScreen";
+
 
 export default function App() {
+  const { user } = useAuthentication();
+
   return (
     <NativeBaseProvider theme={theme}>
-      <Navigation />
+      {user ? <UserNavigation /> : <WelcomeScreen />}
     </NativeBaseProvider>
   );
 }

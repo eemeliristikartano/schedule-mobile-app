@@ -1,5 +1,5 @@
 import { Box, Button, Divider, FlatList, Icon, IconButton, Text } from "native-base";
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { Stop } from "../types/Types";
 import TimetableModal from "./TimetableModal";
@@ -7,8 +7,11 @@ import { ref, onValue } from 'firebase/database';
 import { database } from "../../dbconfig";
 import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
 import { Ionicons } from '@expo/vector-icons';
+import { useAuthentication } from "../utils/useAuthentication";
+import { UserContext } from "../AppContext";
 
 export default function FavoriteStops() {
+    const userContext = useContext(UserContext);
     const [favoriteStops, setFavoriteStops] = useState<Stop[]>([]);
     const [showModal, setShowModal] = useState(false);
     const [stop, setStop] = useState<Stop>();
@@ -18,12 +21,13 @@ export default function FavoriteStops() {
         setShowModal(true);
     }
 
+
     const handleCloseModal = () => setShowModal(false);
 
-    useEffect(() => getFavoriteStops(), [])
+    useEffect(() => getFavoriteStops(), []);
 
     const getFavoriteStops = () => {
-        const itemsRefs = ref(database, 'favoriteStops/');
+        const itemsRefs = ref(database, `favoriteStops/${userContext.userUid}`);
         onValue(itemsRefs, (snapshot) => {
             const data = snapshot.val();
             if (data) {
@@ -32,6 +36,7 @@ export default function FavoriteStops() {
                     return { ...obj, key: keys[index] }
                 });
                 setFavoriteStops(dataWithKeys);
+
             }
         });
     }
@@ -49,7 +54,7 @@ export default function FavoriteStops() {
                             <IconButton
                                 w='1/4'
                                 icon={<Icon as={Ionicons} name="trash" />}
-                                onPress={() => RemoveStopFromFirebase(item.key)}
+                                onPress={() => RemoveStopFromFirebase(item.key, userContext.userUid)}
                             />
                         </Box>
                         <Divider bg='muted.200' marginTop='2' />

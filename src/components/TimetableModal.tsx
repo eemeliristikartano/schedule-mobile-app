@@ -4,11 +4,14 @@ import { Stop, TTimetable } from "../types/Types";
 import { API_KEY } from "@env";
 import Timetable from "./Timetable";
 import { Ionicons } from '@expo/vector-icons';
+import { UserContext } from "../AppContext";
+import { useContext } from 'react'
 
 import { ref, get, orderByChild, query } from 'firebase/database';
 import { database } from "../../dbconfig";
 import SaveStopToFirebase from "../utils/SaveStopToFirebase";
 import RemoveStopFromFirebase from "../utils/RemoveStopFromFirebase";
+import { useAuthentication } from "../utils/useAuthentication";
 
 type Props = {
     showModal: boolean
@@ -17,6 +20,7 @@ type Props = {
 }
 
 export default function TimetableModal({ stop, showModal, closeModal }: Props) {
+    const userContext = useContext(UserContext);
     const [timetable, setTimetable] = useState<TTimetable>();
     const [isLoading, setIsLoading] = useState(true);
     const [favoriteStopIds, setFavoriteStopIds] = useState<Stop[]>([]);
@@ -93,7 +97,6 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
 
 
 
-
     const isUsersFavoriteStop = (gtfsId: string) => favoriteStopIds.find((element) => element.gtfsId === gtfsId)
 
 
@@ -121,7 +124,7 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
                                 size='lg'
                                 icon={<Icon as={Ionicons} name='star' />}
                                 onPress={() => {
-                                    RemoveStopFromFirebase(favoriteStopIds.find((stopa) => stopa.gtfsId === stop!.gtfsId)!.key);
+                                    RemoveStopFromFirebase(favoriteStopIds.find((stopa) => stopa.gtfsId === stop!.gtfsId)!.key, userContext.userUid);
                                     fetchFavoriteStops();
                                 }}
                             />
@@ -130,7 +133,7 @@ export default function TimetableModal({ stop, showModal, closeModal }: Props) {
                                 size='lg'
                                 icon={<Icon as={Ionicons} name='star-outline' />}
                                 onPress={() => {
-                                    SaveStopToFirebase(stop!)
+                                    SaveStopToFirebase(stop!, userContext.userUid)
                                     fetchFavoriteStops();
                                 }}
                             />

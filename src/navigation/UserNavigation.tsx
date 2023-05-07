@@ -7,7 +7,7 @@ import StopSearchScreen from '../screens/StopSearchScreen';
 
 const Tab = createBottomTabNavigator();
 
-export default function Navigation() {
+export default function UserNavigation() {
 
     const screenOptions = ({ route }: any) => ({
         tabBarIcon: ({ focused, color, size }: any) => {

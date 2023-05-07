@@ -2,9 +2,9 @@ import { Stop } from "../types/Types";
 import { push, ref } from 'firebase/database';
 import { database } from "../../dbconfig";
 
-export default function SaveStopToFirebase(stop: Stop) {
+export default function SaveStopToFirebase(stop: Stop, userUid: string) {
     push(
-        ref(database, 'favoriteStops/'),
+        ref(database, `favoriteStops/${userUid}`),
         {
             gtfsId: stop.gtfsId,
             name: stop.name,
